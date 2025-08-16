@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       fontFamily: {
         playfair: ['"Playfair Display"', 'serif'],
+        sans: ['ui-sans-serif', 'system-ui', 'sans-serif'],
       },
     },
   },
