@@ -41,29 +41,34 @@ export default function VanityNavbar() {
       initial={{ y: -60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 1, ease: "easeOut" }}
-      className={
-        `fixed top-0 left-0 w-full z-50 transition-all duration-600 shadow-xl` +
-        (scrolled ? " backdrop-blur-xl" : "")
-      }
+      className={`fixed top-0 left-0 w-full z-50 shadow-xl transition-shadow duration-700 ${
+        scrolled ? "backdrop-blur-xl shadow-lg" : ""
+      }`}
     >
       <div
-        className={`w-full px-8 py-4 flex items-center justify-between
-          border-b-[3px] border-yellow-400
-          rounded-none
-          bg-[#FFE4F3] bg-gradient-to-b from-[#FFE4F3] via-white to-[#FFD6EC]`}
+        className={`w-full px-6 sm:px-8 py-3 sm:py-4 flex flex-wrap md:flex-nowrap items-center justify-between rounded-none transition-all duration-700 ease-in-out ${
+          scrolled
+            ? "bg-gradient-to-b from-[#FFE4F3] via-white to-[#FFD6EC] border-b-4 border-yellow-400"
+            : "bg-transparent border-b-0"
+        }`}
         style={{
-          boxShadow: "0 6px 30px rgba(236,72,153,0.09)",
-          position: "relative"
+          boxShadow: scrolled
+            ? "0 6px 30px rgba(236,72,153,0.09)"
+            : "none",
+          position: "relative",
+          transition: "background-color 0.7s ease, border-color 0.7s ease, box-shadow 0.7s ease",
         }}
       >
-        {/* Subtle animated shimmer background */}
         <motion.div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "linear-gradient(120deg, rgba(236,72,153,0.10), rgba(255,220,255,0.12), rgba(255,234,174,0.11))",
+            background:
+              "linear-gradient(120deg, rgba(236,72,153,0.10), rgba(255,220,255,0.12), rgba(255,234,174,0.11))",
             backgroundSize: "300% 300%",
             filter: "blur(13px)",
             zIndex: -1,
+            opacity: scrolled ? 1 : 0,
+            transition: "opacity 0.7s ease",
           }}
           animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
           transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
@@ -71,11 +76,11 @@ export default function VanityNavbar() {
 
         {/* Logo and Name */}
         <motion.div
-          className="flex items-center space-x-4 cursor-pointer"
+          className="flex items-center space-x-3 cursor-pointer"
           whileHover={{ scale: 1.06 }}
         >
           <motion.div
-            className="w-14 h-14 rounded-xl bg-gradient-to-tr from-pink-200 via-pink-400 to-yellow-200 flex items-center justify-center font-extrabold text-3xl shadow-lg select-none"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-tr from-pink-200 via-pink-400 to-yellow-200 flex items-center justify-center font-extrabold text-2xl sm:text-3xl shadow-lg select-none"
             whileHover={{ scale: 1.12, rotateY: 10, rotateX: 6 }}
             transition={{ type: "spring", stiffness: 260 }}
           >
@@ -83,24 +88,27 @@ export default function VanityNavbar() {
               className="text-pink-700"
               style={{
                 textShadow: "0 0 12px rgba(236,72,153,0.14)",
-                fontWeight: 900
+                fontWeight: 900,
               }}
             >
               V
             </span>
           </motion.div>
           <div className="flex flex-col select-none">
-            <span className="text-pink-700 font-extrabold text-2xl tracking-tight" style={{ letterSpacing: "-.5px" }}>
+            <span
+              className="text-pink-700 font-extrabold text-xl sm:text-2xl tracking-tight"
+              style={{ letterSpacing: "-.5px" }}
+            >
               THE VANITY
             </span>
-            <span className="uppercase text-xs font-semibold tracking-widest text-pink-400">
+            <span className="uppercase text-[10px] sm:text-xs font-semibold tracking-widest text-pink-400">
               Atelier
             </span>
           </div>
         </motion.div>
 
         {/* Nav Links */}
-        <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden md:flex items-center space-x-6 lg:space-x-8 flex-grow">
           {navLinks.map((link, i) => (
             <motion.div
               key={link.name}
@@ -111,7 +119,7 @@ export default function VanityNavbar() {
               <NavLink
                 to={link.to}
                 className={({ isActive }) =>
-                  `relative px-5 py-2 rounded-lg font-semibold transition-all duration-300 group ${
+                  `relative px-4 py-2 rounded-lg font-semibold transition-all duration-300 group ${
                     isActive
                       ? "bg-gradient-to-r from-pink-400 to-pink-500 text-white shadow-md"
                       : "text-pink-700 hover:text-pink-500 hover:bg-pink-100"
@@ -121,7 +129,6 @@ export default function VanityNavbar() {
                 onMouseLeave={resetMagnetic}
               >
                 {link.name}
-                {/* Hover underline effect */}
                 <span className="absolute bottom-1 left-4 w-0 h-[2px] bg-pink-300 rounded-full transition-all duration-296 group-hover:w-2/3"></span>
               </NavLink>
             </motion.div>
@@ -129,15 +136,15 @@ export default function VanityNavbar() {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3 sm:space-x-4 mt-3 md:mt-0">
           {/* Theme Toggle */}
           <motion.button
             whileHover={{ rotate: 180, scale: 1.08 }}
-            className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md
-                ${theme === "dark"
-                  ? "bg-pink-700 text-white"
-                  : "bg-pink-300 text-pink-800"}
-              `}
+            className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md ${
+              theme === "dark"
+                ? "bg-pink-700 text-white"
+                : "bg-pink-300 text-pink-800"
+            }`}
             onClick={toggleTheme}
             aria-label="Toggle theme"
           >
