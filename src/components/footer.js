@@ -31,8 +31,17 @@ const Footer = () => (
         </p>
         <div className="text-gray-400 text-sm mt-5">
           <p>
-            <span className="font-bold text-pink-200">Visit us:</span> 123 Trend Ave, Mumbai, India
-          </p>
+  <span className="font-bold text-pink-200">Visit us:</span>{" "}
+  <a 
+    href="https://maps.app.goo.gl/QWuAySGT63MgcN8a9" 
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-pink-400 underline"
+  >
+    123 Trend Ave, Mumbai, India
+  </a>
+</p>
+
           <p>
             <span className="font-bold text-pink-200">Open:</span> Mon–Sat 10:00–19:00
           </p>

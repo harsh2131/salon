@@ -406,7 +406,7 @@ const AdvancedGallery3D = ({ images }) => {
         
         {/* Premium Navigation Buttons */}
         <motion.button
-          whileHover={{ scale: 1.1, x: -2 }}
+          // whileHover={{ scale: 1.1, x: -2 }}
           whileTap={{ scale: 0.9 }}
           onClick={prevImage}
           className="absolute left-6 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-700 w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all backdrop-blur-sm border border-white/50"
@@ -415,7 +415,7 @@ const AdvancedGallery3D = ({ images }) => {
         </motion.button>
         
         <motion.button
-          whileHover={{ scale: 1.1, x: 2 }}
+          // whileHover={{ scale: 1.1, x: 2 }}
           whileTap={{ scale: 0.9 }}
           onClick={nextImage}
           className="absolute right-6 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-700 w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all backdrop-blur-sm border border-white/50"
@@ -671,16 +671,23 @@ function Home() {
             </motion.button>
             
             <motion.button
-              whileHover={{ 
-                scale: 1.05,
-                backgroundColor: "rgba(255, 255, 255, 0.95)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="px-10 py-5 rounded-full font-bold bg-white/80 backdrop-blur-xl border-2 border-white/50 text-gray-700 text-xl hover:text-gray-900 transition-all shadow-xl flex items-center gap-3"
-            >
-              <FaPhone className="text-xl" />
-              Call Now
-            </motion.button>
+  whileHover={{
+    scale: 1.05,
+    backgroundColor: "rgba(255, 255, 255, 0.95)"
+  }}
+  whileTap={{ scale: 0.95 }}
+  className="px-10 py-5 rounded-full font-bold bg-white/80 backdrop-blur-xl border-2 border-white/50 text-gray-700 text-xl hover:text-gray-900 transition-all shadow-xl flex items-center gap-3"
+>
+  <a
+    href="tel:+918238872273"
+    className="flex items-center gap-3 text-inherit"
+    style={{ textDecoration: 'none' }}
+  >
+    <FaPhone className="text-xl" />
+    Call Now
+  </a>
+</motion.button>
+
           </motion.div>
         </div>
         

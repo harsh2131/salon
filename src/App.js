@@ -5,10 +5,9 @@ import Footer from './components/Footer';   // ✅ Footer
 import Home from './pages/Home';
 import Services from './pages/Services';
 import About from './pages/About';
-// import Contact from './pages/Contact';
+import Contact from './pages/Contact';
 import { FaCrown } from 'react-icons/fa';
 import Appointment from './pages/Appointment';
-import Particles from './components/Partical';
 
 
 function App() {
@@ -23,6 +22,7 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/about" element={<About />} />
             <Route path="/appointment" element={<Appointment />} />
+             <Route path="/contact" element={<Contact />} />
 
           </Routes>
         </main>

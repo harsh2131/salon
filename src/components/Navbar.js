@@ -4,16 +4,15 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { name: "Home", to: "/" },
-  { name: "About", to: "/about" },
   { name: "Services", to: "/services" },
   { name: "Appointment", to: "/appointment" },
+  { name: "About", to: "/about" },
   { name: "Contact", to: "/contact" },
 ];
 
 export default function VanityNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [theme, setTheme] = useState("light");
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -21,8 +20,6 @@ export default function VanityNavbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
   const handleMagnetic = (e) => {
     const { currentTarget, clientX, clientY } = e;
@@ -46,17 +43,16 @@ export default function VanityNavbar() {
       }`}
     >
       <div
-        className={`w-full px-6 sm:px-8 py-3 sm:py-4 flex flex-wrap md:flex-nowrap items-center justify-between rounded-none transition-all duration-700 ease-in-out ${
+        className={`w-full px-6 sm:px-8 py-3 sm:py-4 flex items-center justify-between transition-all duration-700 ease-in-out ${
           scrolled
             ? "bg-gradient-to-b from-[#FFE4F3] via-white to-[#FFD6EC] border-b-4 border-yellow-400"
             : "bg-transparent border-b-0"
         }`}
         style={{
-          boxShadow: scrolled
-            ? "0 6px 30px rgba(236,72,153,0.09)"
-            : "none",
+          boxShadow: scrolled ? "0 6px 30px rgba(236,72,153,0.09)" : "none",
           position: "relative",
-          transition: "background-color 0.7s ease, border-color 0.7s ease, box-shadow 0.7s ease",
+          transition:
+            "background-color 0.7s ease, border-color 0.7s ease, box-shadow 0.7s ease",
         }}
       >
         <motion.div
@@ -107,8 +103,8 @@ export default function VanityNavbar() {
           </div>
         </motion.div>
 
-        {/* Nav Links */}
-        <div className="hidden md:flex items-center space-x-6 lg:space-x-8 flex-grow">
+        {/* Nav Links aligned right */}
+        <div className="hidden md:flex items-center space-x-8 ml-auto">
           {navLinks.map((link, i) => (
             <motion.div
               key={link.name}
@@ -135,27 +131,12 @@ export default function VanityNavbar() {
           ))}
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center space-x-3 sm:space-x-4 mt-3 md:mt-0">
-          {/* Theme Toggle */}
-          <motion.button
-            whileHover={{ rotate: 180, scale: 1.08 }}
-            className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md ${
-              theme === "dark"
-                ? "bg-pink-700 text-white"
-                : "bg-pink-300 text-pink-800"
-            }`}
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? "☾" : "☀"}
-          </motion.button>
-
-          {/* Mobile Menu Toggle */}
+        {/* Mobile Menu Toggle */}
+        <div className="flex items-center ml-4 md:hidden">
           <motion.button
             onClick={() => setMenuOpen(!menuOpen)}
             whileTap={{ scale: 0.93 }}
-            className="md:hidden w-10 h-10 rounded-xl bg-gradient-to-r from-pink-500 to-pink-400 text-white shadow-lg"
+            className="w-10 h-10 rounded-xl bg-gradient-to-r from-pink-500 to-pink-400 text-white shadow-lg"
             aria-label="Toggle menu"
           >
             ☰

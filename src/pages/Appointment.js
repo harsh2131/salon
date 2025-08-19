@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { format } from "date-fns";
+import { motion } from "framer-motion";
 
-// Services and Branches data (as already defined)
+// Services and Branches data
 const services = [
   { id: 1, name: "Women's Haircut", price: 65, duration: 60 },
   { id: 2, name: "Men's Haircut", price: 35, duration: 30 },
@@ -42,10 +43,18 @@ const BookingForm = () => {
   const [branch, setBranch] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [formData, setFormData] = useState({ firstName: "", lastName: "", email: "", phone: "", notes: "" });
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    notes: "",
+  });
 
   // Summary state
-  const selectedDetails = services.filter(s => selectedServices.includes(s.id));
+  const selectedDetails = services.filter((s) =>
+    selectedServices.includes(s.id)
+  );
   const totalPrice = selectedDetails.reduce((sum, s) => sum + s.price, 0);
   const totalDuration = selectedDetails.reduce((sum, s) => sum + s.duration, 0);
 
@@ -69,12 +78,30 @@ const BookingForm = () => {
     }
   };
 
-  const branchObj = branches.find(b => b.id === branch);
+  const branchObj = branches.find((b) => b.id === branch);
+
+  // Shared button styles & animations
+  const buttonClassNames =
+    "w-full py-5 rounded-xl bg-gradient-to-r from-pink-400 via-yellow-300 to-yellow-400 border-2 border-[#FFD700] text-[#a6466c] font-extrabold text-xl shadow-lg transition hover:from-yellow-300 hover:via-pink-400 hover:to-yellow-400 hover:shadow-2xl";
+
+  const buttonHoverAnimation = {
+    scale: 1.05,
+    background: "linear-gradient(90deg,#f43f5e,#8750e9,#facc15)",
+    color: "#fff",
+    boxShadow: "0 12px 40px rgba(236,72,153,0.2)",
+  };
+
+  const buttonTapAnimation = { scale: 0.96 };
 
   return (
     <div className="max-w-4xl mx-auto p-6 text-pink-800">
-      <h1 className="text-4xl font-bold text-center text-pink-600 mb-4">Book Your Appointment</h1>
-      <p className="text-center text-pink-700 mb-10">Choose your services, preferred location, and time that works best for you</p>
+      <h1 className="text-4xl font-bold text-center text-pink-600 mb-4">
+        Book Your Appointment
+      </h1>
+      <p className="text-center text-pink-700 mb-10">
+        Choose your services, preferred location, and time that works best for
+        you
+      </p>
 
       {/* Services */}
       <div className="mb-10 border rounded-lg p-6">
@@ -82,7 +109,11 @@ const BookingForm = () => {
         {services.map((service) => (
           <div
             key={service.id}
-            className={`flex justify-between items-center border p-4 mb-3 rounded-md cursor-pointer ${selectedServices.includes(service.id) ? "bg-pink-50 border-pink-400" : "hover:border-pink-300"}`}
+            className={`flex justify-between items-center border p-4 mb-3 rounded-md cursor-pointer ${
+              selectedServices.includes(service.id)
+                ? "bg-pink-50 border-pink-400"
+                : "hover:border-pink-300"
+            }`}
             onClick={() => toggleService(service.id)}
           >
             <div>
@@ -101,11 +132,15 @@ const BookingForm = () => {
           <div
             key={b.id}
             onClick={() => setBranch(b.id)}
-            className={`border p-4 mb-3 rounded-md cursor-pointer ${branch === b.id ? "bg-pink-50 border-pink-400" : "hover:border-pink-300"}`}
+            className={`border p-4 mb-3 rounded-md cursor-pointer ${
+              branch === b.id ? "bg-pink-50 border-pink-400" : "hover:border-pink-300"
+            }`}
           >
             <h3 className="font-semibold text-lg mb-1">{b.name}</h3>
             <p className="text-sm mb-1">{b.address}</p>
-            <p className="text-sm">📞 {b.phone} &nbsp;&nbsp; 🕒 {b.hours}</p>
+            <p className="text-sm">
+              📞 {b.phone} &nbsp;&nbsp; 🕒 {b.hours}
+            </p>
           </div>
         ))}
       </div>
@@ -116,16 +151,27 @@ const BookingForm = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
             <label className="block mb-1 font-medium">Select Date</label>
-            <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full border rounded px-4 py-2" />
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="w-full border rounded px-4 py-2"
+            />
           </div>
           <div>
             <label className="block mb-1 font-medium">Select Time</label>
-            <select value={time} onChange={(e) => setTime(e.target.value)} className="w-full border rounded px-4 py-2">
+            <select
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              className="w-full border rounded px-4 py-2"
+            >
               <option value="">Choose time</option>
               {[...Array(20)].map((_, i) => {
                 const h = 9 + Math.floor(i / 2);
                 const m = i % 2 === 0 ? "00" : "30";
-                return <option key={i}>{`${h}:${m} ${h < 12 ? "AM" : "PM"}`}</option>;
+                return (
+                  <option key={i}>{`${h}:${m} ${h < 12 ? "AM" : "PM"}`}</option>
+                );
               })}
             </select>
           </div>
@@ -136,10 +182,36 @@ const BookingForm = () => {
       <div className="mb-10 border rounded-lg p-6">
         <h2 className="text-2xl font-semibold mb-4">Your Information</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-          <input name="firstName" onChange={handleChange} value={formData.firstName} placeholder="First Name *" className="border rounded px-4 py-2" />
-          <input name="lastName" onChange={handleChange} value={formData.lastName} placeholder="Last Name *" className="border rounded px-4 py-2" />
-          <input name="email" type="email" onChange={handleChange} value={formData.email} placeholder="Email *" className="border rounded px-4 py-2" />
-          <input name="phone" type="tel" onChange={handleChange} value={formData.phone} placeholder="Phone *" className="border rounded px-4 py-2" />
+          <input
+            name="firstName"
+            onChange={handleChange}
+            value={formData.firstName}
+            placeholder="First Name *"
+            className="border rounded px-4 py-2"
+          />
+          <input
+            name="lastName"
+            onChange={handleChange}
+            value={formData.lastName}
+            placeholder="Last Name *"
+            className="border rounded px-4 py-2"
+          />
+          <input
+            name="email"
+            type="email"
+            onChange={handleChange}
+            value={formData.email}
+            placeholder="Email *"
+            className="border rounded px-4 py-2"
+          />
+          <input
+            name="phone"
+            type="tel"
+            onChange={handleChange}
+            value={formData.phone}
+            placeholder="Phone *"
+            className="border rounded px-4 py-2"
+          />
         </div>
         <textarea
           name="notes"
@@ -152,7 +224,7 @@ const BookingForm = () => {
       </div>
 
       {/* Booking Summary Section */}
-      <div className="mb-10 border rounded-lg p-6 bg-pink-50">
+      <div className="mb-6 border rounded-lg p-6 bg-pink-50">
         <h2 className="text-2xl font-semibold mb-4">Booking Summary</h2>
         <div className="mb-2">
           <span className="font-semibold">Selected Services:</span>
@@ -180,7 +252,9 @@ const BookingForm = () => {
         <div className="my-4 border-t" />
         <div className="mb-2 flex justify-between">
           <span>Location:</span>
-          <span>{branchObj ? branchObj.name : <span className="text-pink-400">No location selected</span>}</span>
+          <span>
+            {branchObj ? branchObj.name : <span className="text-pink-400">No location selected</span>}
+          </span>
         </div>
         <div className="mb-2 flex justify-between">
           <span>Date:</span>
@@ -192,13 +266,41 @@ const BookingForm = () => {
         </div>
       </div>
 
-      {/* Book Appointment Button */}
-      <button
+      {/* Book Appointment Button below Booking Summary */}
+      <motion.button
         type="button"
-        className="w-full py-3 rounded-lg bg-gradient-to-r from-pink-300 via-yellow-200 to-yellow-400 border-2 border-[#FFD700] text-[#a6466c] font-bold text-lg shadow mt-2 transition hover:from-yellow-200 hover:via-pink-300 hover:to-yellow-400 hover:shadow-lg"
+        whileHover={buttonHoverAnimation}
+        whileTap={buttonTapAnimation}
+        className={buttonClassNames}
       >
         Book Appointment
-      </button>
+      </motion.button>
+
+      {/* Login / Sign Up Buttons (same style and animation) */}
+      <div className="mt-8 text-center">
+        <p className="text-sm text-gray-500 mb-2">
+          <span className="font-semibold text-pink-500">Login</span> and{" "}
+          <span className="font-semibold text-yellow-500">Sign Up</span> are only for Salon staff.
+        </p>
+        <div className="flex justify-center gap-4">
+          <motion.button
+            type="button"
+            whileHover={buttonHoverAnimation}
+            whileTap={buttonTapAnimation}
+            className={buttonClassNames}
+          >
+            Login
+          </motion.button>
+          <motion.button
+            type="button"
+            whileHover={buttonHoverAnimation}
+            whileTap={buttonTapAnimation}
+            className={buttonClassNames}
+          >
+            Sign Up
+          </motion.button>
+        </div>
+      </div>
     </div>
   );
 };
