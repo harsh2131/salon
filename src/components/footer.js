@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import { Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+ import { Link } from 'react-router-dom';
+import { BsWhatsapp } from 'react-icons/bs';
+import { FaInstagram, FaFacebookF, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { HiOutlineMail } from 'react-icons/hi';
 
 const Footer = () => (
   <footer
@@ -31,17 +31,16 @@ const Footer = () => (
         </p>
         <div className="text-gray-400 text-sm mt-5">
           <p>
-  <span className="font-bold text-pink-200">Visit us:</span>{" "}
-  <a 
-    href="https://maps.app.goo.gl/QWuAySGT63MgcN8a9" 
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-pink-400 underline"
-  >
-    123 Trend Ave, Mumbai, India
-  </a>
-</p>
-
+            <span className="font-bold text-pink-200">Visit us:</span>{" "}
+            <a
+              href="https://maps.app.goo.gl/QWuAySGT63MgcN8a9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-pink-400 underline"
+            >
+              123 Trend Ave, Mumbai, India
+            </a>
+          </p>
           <p>
             <span className="font-bold text-pink-200">Open:</span> Mon–Sat 10:00–19:00
           </p>
@@ -50,9 +49,7 @@ const Footer = () => (
 
       {/* Navigation */}
       <div>
-        <h4 className="font-semibold mb-4 text-lg text-pink-100 tracking-wide">
-          Explore
-        </h4>
+        <h4 className="font-semibold mb-4 text-lg text-pink-100 tracking-wide">Explore</h4>
         <ul className="space-y-2 text-pink-200/80">
           <li>
             <Link
@@ -91,9 +88,7 @@ const Footer = () => (
 
       {/* Social Media & Contact */}
       <div>
-        <h4 className="font-semibold mb-4 text-lg text-pink-100 tracking-wide">
-          Connect With Us
-        </h4>
+        <h4 className="font-semibold mb-4 text-lg text-pink-100 tracking-wide">Connect With Us</h4>
         <div className="flex justify-center md:justify-start flex-wrap gap-4">
           {/* WhatsApp */}
           <a
@@ -104,7 +99,7 @@ const Footer = () => (
             className="group bg-[#111827] rounded-full p-3 hover:bg-green-200/20 transition"
             title="WhatsApp"
           >
-            <FontAwesomeIcon icon={faWhatsapp} className="w-6 h-6 text-green-400 group-hover:scale-110 transition" />
+            <BsWhatsapp className="w-6 h-6 text-green-400 group-hover:scale-110 transition" />
           </a>
           {/* Instagram */}
           <a
@@ -115,34 +110,40 @@ const Footer = () => (
             className="group bg-[#111827] rounded-full p-3 hover:bg-pink-200/20 transition"
             title="Instagram"
           >
-            <Instagram className="w-6 h-6 text-pink-400 group-hover:scale-110 transition" />
+            <FaInstagram className="w-6 h-6 text-pink-400 group-hover:scale-110 transition" />
           </a>
           {/* Facebook */}
           <a
-            href="#"
+            href="https://www.facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="Facebook"
             className="group bg-[#111827] rounded-full p-3 hover:bg-blue-200/20 transition"
             title="Facebook"
           >
-            <Facebook className="w-6 h-6 text-blue-400 group-hover:scale-110 transition" />
+            <FaFacebookF className="w-6 h-6 text-blue-400 group-hover:scale-110 transition" />
           </a>
           {/* Twitter */}
           <a
-            href="#"
+            href="https://twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="Twitter"
             className="group bg-[#111827] rounded-full p-3 hover:bg-blue-100/20 transition"
             title="Twitter"
           >
-            <Twitter className="w-6 h-6 text-blue-200 group-hover:scale-110 transition" />
+            <FaTwitter className="w-6 h-6 text-blue-400 group-hover:scale-110 transition" />
           </a>
           {/* YouTube */}
           <a
-            href="#"
+            href="https://youtube.com"
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="YouTube"
             className="group bg-[#111827] rounded-full p-3 hover:bg-red-200/20 transition"
             title="YouTube"
           >
-            <Youtube className="w-6 h-6 text-red-400 group-hover:scale-110 transition" />
+            <FaYoutube className="w-6 h-6 text-red-400 group-hover:scale-110 transition" />
           </a>
         </div>
         <p className="mt-6 text-pink-100/70 text-sm">

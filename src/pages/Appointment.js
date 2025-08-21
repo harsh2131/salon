@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
 
-// Services and Branches data
+// ================== Services & Branches ==================
 const services = [
   { id: 1, name: "Women's Haircut", price: 65, duration: 60 },
   { id: 2, name: "Men's Haircut", price: 35, duration: 30 },
@@ -51,13 +51,14 @@ const BookingForm = () => {
     notes: "",
   });
 
-  // Summary state
+  // Service summary
   const selectedDetails = services.filter((s) =>
     selectedServices.includes(s.id)
   );
   const totalPrice = selectedDetails.reduce((sum, s) => sum + s.price, 0);
   const totalDuration = selectedDetails.reduce((sum, s) => sum + s.duration, 0);
 
+  // Toggle services
   const toggleService = (id) => {
     setSelectedServices((prev) =>
       prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]
@@ -68,7 +69,7 @@ const BookingForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Format selected date
+  // Format date
   const formatDate = (dateString) => {
     if (!dateString) return "";
     try {
@@ -80,27 +81,96 @@ const BookingForm = () => {
 
   const branchObj = branches.find((b) => b.id === branch);
 
-  // Shared button styles & animations
-const buttonClassNames =
-  "w-full py-5 rounded-xl bg-gradient-to-r from-pink-200 to-pink-400 border border-pink-400 text-pink-800 font-semibold text-xl shadow-sm transition-colors duration-300 hover:bg-pink-500 hover:text-white hover:shadow-md";
-
+  // ============== THE MAGIC BUTTON STYLES ==============
+  const buttonClassNames =
+    "w-full sm:w-[45%] px-8 py-4 rounded-[2rem] bg-gradient-to-r from-[#fbc2eb] to-[#fd6eab] border-2 border-[#fd6eab] text-[#a6466c] font-extrabold text-2xl shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-300";
   const buttonHoverAnimation = {
-    scale: 1.05,
-    background: "linear-gradient(90deg,#F472B6,#F472B6,#FBCFE8)",
-    color: "#fff",
-    boxShadow: "0 12px 40px rgba(236,72,153,0.2)",
+    scale: 1.02,
+    background: "linear-gradient(90deg,#fd6eab,#fbc2eb)",
+    color: "#a6466c",
+    boxShadow: "0 8px 30px rgba(253,110,171,.12)",
+  };
+  const buttonTapAnimation = { scale: 0.98 };
+
+  // ============== Booking Handler ==============
+  const handleBooking = async () => {
+    if (selectedServices.length === 0) {
+      alert("Please select at least one service.");
+      return;
+    }
+    if (!branch) {
+      alert("Please select a location.");
+      return;
+    }
+    if (!date) {
+      alert("Please select a date.");
+      return;
+    }
+    if (!time) {
+      alert("Please select a time.");
+      return;
+    }
+    if (
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.email ||
+      !formData.phone
+    ) {
+      alert("Please fill all required personal information fields.");
+      return;
+    }
+
+    const bookingData = {
+      services: selectedDetails,
+      branch,
+      date,
+      time,
+      ...formData,
+    };
+
+    try {
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to create booking");
+      }
+
+      const result = await response.json();
+      alert("Booking successful! Your booking ID: " + result._id);
+
+      // Reset
+      setSelectedServices([]);
+      setBranch("");
+      setDate("");
+      setTime("");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        notes: "",
+      });
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
   };
 
-  const buttonTapAnimation = { scale: 0.96 };
-
+  // =============== UI ===============
   return (
     <div className="max-w-4xl mx-auto p-6 text-pink-800">
-      <h1 className="text-4xl font-bold text-center text-pink-600 mb-4">
-        Book Your Appointment
-      </h1>
+     <div className="pt-16"> {/* 16 = 4rem = 64px, adjust according to your navbar height */}
+  <h1 className="text-4xl font-bold text-center text-pink-600 mb-4">
+    Book Your Appointment
+  </h1>
+</div>
+
       <p className="text-center text-pink-700 mb-10">
-        Choose your services, preferred location, and time that works best for
-        you
+        Choose your services, preferred location, and time that works best for you
       </p>
 
       {/* Services */}
@@ -133,7 +203,9 @@ const buttonClassNames =
             key={b.id}
             onClick={() => setBranch(b.id)}
             className={`border p-4 mb-3 rounded-md cursor-pointer ${
-              branch === b.id ? "bg-pink-50 border-pink-400" : "hover:border-pink-300"
+              branch === b.id
+                ? "bg-pink-50 border-pink-400"
+                : "hover:border-pink-300"
             }`}
           >
             <h3 className="font-semibold text-lg mb-1">{b.name}</h3>
@@ -220,10 +292,10 @@ const buttonClassNames =
           placeholder="Any special requests or notes for your stylist..."
           className="border rounded px-4 py-2 w-full"
           rows={3}
-        ></textarea>
+        />
       </div>
 
-      {/* Booking Summary Section */}
+      {/* Booking Summary */}
       <div className="mb-6 border rounded-lg p-6 bg-pink-50">
         <h2 className="text-2xl font-semibold mb-4">Booking Summary</h2>
         <div className="mb-2">
@@ -247,18 +319,30 @@ const buttonClassNames =
         </div>
         <div className="mb-2 flex justify-between">
           <span className="font-semibold">Total Price:</span>
-          <span className="font-bold text-pink-600 text-lg">${totalPrice}</span>
+          <span className="font-bold text-pink-600 text-lg">
+            ${totalPrice}
+          </span>
         </div>
         <div className="my-4 border-t" />
         <div className="mb-2 flex justify-between">
           <span>Location:</span>
           <span>
-            {branchObj ? branchObj.name : <span className="text-pink-400">No location selected</span>}
+            {branchObj ? (
+              branchObj.name
+            ) : (
+              <span className="text-pink-400">No location selected</span>
+            )}
           </span>
         </div>
         <div className="mb-2 flex justify-between">
           <span>Date:</span>
-          <span>{date ? formatDate(date) : <span className="text-pink-400">No date selected</span>}</span>
+          <span>
+            {date ? (
+              formatDate(date)
+            ) : (
+              <span className="text-pink-400">No date selected</span>
+            )}
+          </span>
         </div>
         <div className="mb-2 flex justify-between">
           <span>Time:</span>
@@ -266,28 +350,29 @@ const buttonClassNames =
         </div>
       </div>
 
-      {/* Book Appointment Button below Booking Summary */}
+      {/* Book Appointment Button */}
       <motion.button
         type="button"
         whileHover={buttonHoverAnimation}
         whileTap={buttonTapAnimation}
-        className={buttonClassNames}
+        className={buttonClassNames + " mb-12"}
+        onClick={handleBooking}
       >
         Book Appointment
       </motion.button>
 
-      {/* Login / Sign Up Buttons (same style and animation) */}
+      {/* Login / Sign Up Buttons */}
       <div className="mt-8 text-center">
-        <p className="text-sm text-gray-500 mb-2">
+        <p className="text-md text-gray-500 mb-4">
           <span className="font-semibold text-pink-500">Login</span> and{" "}
-          <span className="font-semibold text-yellow-500">Sign Up</span> are only for Salon staff.
+          <span className="font-semibold" style={{ color: "#fbbf24" }}>Sign Up</span> are only for Salon staff.
         </p>
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-8">
           <motion.button
             type="button"
             whileHover={buttonHoverAnimation}
             whileTap={buttonTapAnimation}
-            className={buttonClassNames}
+            className={buttonClassNames + " font-extrabold"}
           >
             Login
           </motion.button>
@@ -295,7 +380,7 @@ const buttonClassNames =
             type="button"
             whileHover={buttonHoverAnimation}
             whileTap={buttonTapAnimation}
-            className={buttonClassNames}
+            className={buttonClassNames + " font-extrabold"}
           >
             Sign Up
           </motion.button>

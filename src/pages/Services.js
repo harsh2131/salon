@@ -30,7 +30,11 @@ const serviceSections = [
 const Services = () => (
   <div className="py-16 px-6 bg-gradient-to-br from-pink-50 via-white to-pink-100 min-h-screen">
     <div className="text-center mb-14">
-      <h2 className="text-5xl font-extrabold text-pink-700 mb-4 drop-shadow-lg">Our Services</h2>
+      <div className="pt-16"> {/* 16 = 4rem = 64px, adjust according to your navbar height */}
+  <h1 className="text-5xl font-bold text-center text-pink-600 mb-4">
+Our Services  </h1>
+</div>
+
       <p className="text-lg text-gray-600 max-w-xl mx-auto">
         Discover a full spectrum of beauty and wellness treatments, delivered by our expert team in a luxurious setting.
       </p>
