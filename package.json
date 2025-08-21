@@ -22,6 +22,7 @@
     "aos": "^2.3.4",
     "canvas-confetti": "^1.9.3",
     "date-fns": "^4.1.0",
+    "express": "^5.1.0",
     "framer-motion": "^7.10.3",
     "gsap": "^3.13.0",
     "install": "^0.13.0",

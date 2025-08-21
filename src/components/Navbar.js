@@ -24,8 +24,8 @@ export default function VanityNavbar() {
   const handleMagnetic = (e) => {
     const { currentTarget, clientX, clientY } = e;
     const { left, top, width, height } = currentTarget.getBoundingClientRect();
-    const deltaX = (clientX - (left + width / 2)) * 0.13;
-    const deltaY = (clientY - (top + height / 2)) * 0.13;
+    const deltaX = (clientX - (left + width / 2)) * 0.1;
+    const deltaY = (clientY - (top + height / 2)) * 0.1;
     currentTarget.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
   };
   const resetMagnetic = (e) => {
@@ -37,95 +37,59 @@ export default function VanityNavbar() {
       ref={navRef}
       initial={{ y: -60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, ease: "easeOut" }}
-      className={`fixed top-0 left-0 w-full z-50 shadow-xl transition-shadow duration-700 ${
-        scrolled ? "backdrop-blur-xl shadow-lg" : ""
+      transition={{ duration: 0.9, ease: "easeOut" }}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${
+        scrolled
+          ? "backdrop-blur-lg bg-[#fefcf9aa] shadow-md border-b border-gray-300"
+          : "bg-[#fefcf999] backdrop-blur-lg border-b border-gray-300"
       }`}
     >
-      <div
-        className={`w-full px-6 sm:px-8 py-3 sm:py-4 flex items-center justify-between transition-all duration-700 ease-in-out ${
-          scrolled
-            ? "bg-gradient-to-b from-[#FFE4F3] via-white to-[#FFD6EC] border-b-4 border-yellow-400"
-            : "bg-transparent border-b-0"
-        }`}
-        style={{
-          boxShadow: scrolled ? "0 6px 30px rgba(236,72,153,0.09)" : "none",
-          position: "relative",
-          transition:
-            "background-color 0.7s ease, border-color 0.7s ease, box-shadow 0.7s ease",
-        }}
-      >
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(120deg, rgba(236,72,153,0.10), rgba(255,220,255,0.12), rgba(255,234,174,0.11))",
-            backgroundSize: "300% 300%",
-            filter: "blur(13px)",
-            zIndex: -1,
-            opacity: scrolled ? 1 : 0,
-            transition: "opacity 0.7s ease",
-          }}
-          animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-        />
-
-        {/* Logo and Name */}
+      <div className="w-full px-6 sm:px-8 py-3 sm:py-4 flex items-center justify-between">
+        {/* Logo */}
         <motion.div
           className="flex items-center space-x-3 cursor-pointer"
-          whileHover={{ scale: 1.06 }}
+          whileHover={{ scale: 1.05 }}
         >
           <motion.div
-            className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-tr from-pink-200 via-pink-400 to-yellow-200 flex items-center justify-center font-extrabold text-2xl sm:text-3xl shadow-lg select-none"
-            whileHover={{ scale: 1.12, rotateY: 10, rotateX: 6 }}
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/40 backdrop-blur-lg flex items-center justify-center font-extrabold text-2xl shadow-md select-none"
+            whileHover={{ scale: 1.1, rotateY: 10, rotateX: 6 }}
             transition={{ type: "spring", stiffness: 260 }}
           >
-            <span
-              className="text-pink-700"
-              style={{
-                textShadow: "0 0 12px rgba(236,72,153,0.14)",
-                fontWeight: 900,
-              }}
-            >
-              V
-            </span>
+            <span className="text-gray-700">V</span>
           </motion.div>
           <div className="flex flex-col select-none">
-            <span
-              className="text-pink-700 font-extrabold text-xl sm:text-2xl tracking-tight"
-              style={{ letterSpacing: "-.5px" }}
-            >
+            <span className="text-gray-800 font-extrabold text-lg sm:text-xl tracking-tight">
               THE VANITY
             </span>
-            <span className="uppercase text-[10px] sm:text-xs font-semibold tracking-widest text-pink-400">
+            <span className="uppercase text-[10px] sm:text-xs font-medium tracking-widest text-gray-500">
               Atelier
             </span>
           </div>
         </motion.div>
 
-        {/* Nav Links aligned right */}
-        <div className="hidden md:flex items-center space-x-8 ml-auto">
+        {/* Desktop Nav Links */}
+        <div className="hidden md:flex items-center space-x-6 ml-auto">
           {navLinks.map((link, i) => (
             <motion.div
               key={link.name}
-              initial={{ opacity: 0, y: -18 }}
+              initial={{ opacity: 0, y: -15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.135, type: "spring", stiffness: 210 }}
+              transition={{ delay: i * 0.12, type: "spring", stiffness: 210 }}
             >
               <NavLink
                 to={link.to}
                 className={({ isActive }) =>
-                  `relative px-4 py-2 rounded-lg font-semibold transition-all duration-300 group ${
+                  `relative px-4 py-2 rounded-lg font-medium transition-all duration-300 group ${
                     isActive
-                      ? "bg-gradient-to-r from-pink-400 to-pink-500 text-white shadow-md"
-                      : "text-pink-700 hover:text-pink-500 hover:bg-pink-100"
+                      ? "bg-white/40 backdrop-blur-md text-gray-900 shadow-sm"
+                      : "text-gray-700 hover:text-gray-900 hover:bg-white/30"
                   }`
                 }
                 onMouseMove={handleMagnetic}
                 onMouseLeave={resetMagnetic}
               >
                 {link.name}
-                <span className="absolute bottom-1 left-4 w-0 h-[2px] bg-pink-300 rounded-full transition-all duration-296 group-hover:w-2/3"></span>
+                <span className="absolute bottom-1 left-4 w-0 h-[2px] bg-gray-400 rounded-full transition-all duration-300 group-hover:w-2/3"></span>
               </NavLink>
             </motion.div>
           ))}
@@ -135,8 +99,8 @@ export default function VanityNavbar() {
         <div className="flex items-center ml-4 md:hidden">
           <motion.button
             onClick={() => setMenuOpen(!menuOpen)}
-            whileTap={{ scale: 0.93 }}
-            className="w-10 h-10 rounded-xl bg-gradient-to-r from-pink-500 to-pink-400 text-white shadow-lg"
+            whileTap={{ scale: 0.9 }}
+            className="w-10 h-10 rounded-xl bg-white/40 backdrop-blur-lg text-gray-800 shadow-md"
             aria-label="Toggle menu"
           >
             ☰
@@ -150,14 +114,14 @@ export default function VanityNavbar() {
               initial={{ opacity: 0, y: -16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.38 }}
-              className="absolute top-full left-0 w-full bg-pink-100/80 backdrop-blur-lg md:hidden rounded-b-xl mt-2 z-50 shadow-lg"
+              transition={{ duration: 0.35 }}
+              className="absolute top-full left-0 w-full bg-[#fefcf999] backdrop-blur-lg md:hidden rounded-b-xl mt-2 z-50 shadow-md border-b border-gray-300"
             >
               {navLinks.map((link) => (
                 <NavLink
                   key={link.name}
                   to={link.to}
-                  className="block px-8 py-5 text-pink-800 font-semibold hover:bg-pink-300/40 transition-colors duration-160"
+                  className="block px-8 py-5 text-gray-800 font-semibold hover:bg-white/50 transition-colors duration-200"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link.name}

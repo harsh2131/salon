@@ -27,6 +27,8 @@ import {
   FaAward
 } from 'react-icons/fa';
 
+
+
 import {
   MdSpa,
   MdFace,
@@ -359,114 +361,114 @@ const AdvancedGallery3D = ({ images }) => {
     setCurrentIndex((prev) => (prev - 1 + filteredImages.length) % filteredImages.length);
   };
 
-  return (
-    <div className="relative w-full">
-      {/* Premium Category Filter */}
-      <div className="flex flex-wrap justify-center gap-3 mb-12">
-        {categories.map(category => (
-          <motion.button
-            key={category}
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => {
-              setSelectedCategory(category);
-              setCurrentIndex(0);
-            }}
-            className={`px-6 py-3 rounded-full font-semibold transition-all backdrop-blur-sm relative overflow-hidden ${
-              selectedCategory === category
-                ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                : 'bg-white/80 text-gray-700 border border-gray-200 hover:bg-white hover:shadow-md'
-            }`}
-          >
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20"
-              initial={{ scale: 0, opacity: 0 }}
-              whileHover={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            />
-            <span className="relative z-10">{category}</span>
-          </motion.button>
-        ))}
-      </div>
+  // return (
+  //   <div className="relative w-full">
+  //     {/* Premium Category Filter */}
+  //     <div className="flex flex-wrap justify-center gap-3 mb-12">
+  //       {categories.map(category => (
+  //         <motion.button
+  //           key={category}
+  //           whileHover={{ scale: 1.05, y: -2 }}
+  //           whileTap={{ scale: 0.95 }}
+  //           onClick={() => {
+  //             setSelectedCategory(category);
+  //             setCurrentIndex(0);
+  //           }}
+  //           className={`px-6 py-3 rounded-full font-semibold transition-all backdrop-blur-sm relative overflow-hidden ${
+  //             selectedCategory === category
+  //               ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+  //               : 'bg-white/80 text-gray-700 border border-gray-200 hover:bg-white hover:shadow-md'
+  //           }`}
+  //         >
+  //           <motion.div
+  //             className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20"
+  //             initial={{ scale: 0, opacity: 0 }}
+  //             whileHover={{ scale: 1, opacity: 1 }}
+  //             transition={{ duration: 0.3 }}
+  //           />
+  //           <span className="relative z-10">{category}</span>
+  //         </motion.button>
+  //       ))}
+  //     </div>
 
-      {/* Enhanced Gallery Display */}
-      <motion.div 
-        className="relative h-[500px] flex items-center justify-center mb-12 bg-gradient-to-br from-gray-50 to-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
-        layout
-      >
-        <motion.img
-          key={filteredImages[currentIndex]?.src}
-          src={filteredImages[currentIndex]?.src}
-          alt={filteredImages[currentIndex]?.title}
-          className="w-full h-full object-cover"
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-        />
+  //     {/* Enhanced Gallery Display */}
+  //     <motion.div 
+  //       className="relative h-[500px] flex items-center justify-center mb-12 bg-gradient-to-br from-gray-50 to-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+  //       layout
+  //     >
+  //       <motion.img
+  //         key={filteredImages[currentIndex]?.src}
+  //         src={filteredImages[currentIndex]?.src}
+  //         alt={filteredImages[currentIndex]?.title}
+  //         className="w-full h-full object-cover"
+  //         initial={{ opacity: 0, scale: 1.1 }}
+  //         animate={{ opacity: 1, scale: 1 }}
+  //         transition={{ duration: 0.6 }}
+  //       />
         
-        {/* Premium Navigation Buttons */}
-        <motion.button
-          // whileHover={{ scale: 1.1, x: -2 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={prevImage}
-          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-700 w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all backdrop-blur-sm border border-white/50"
-        >
-          <FaChevronLeft className="text-lg" />
-        </motion.button>
+  //       {/* Premium Navigation Buttons */}
+  //       <motion.button
+  //         // whileHover={{ scale: 1.1, x: -2 }}
+  //         whileTap={{ scale: 0.9 }}
+  //         onClick={prevImage}
+  //         className="absolute left-6 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-700 w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all backdrop-blur-sm border border-white/50"
+  //       >
+  //         <FaChevronLeft className="text-lg" />
+  //       </motion.button>
         
-        <motion.button
-          // whileHover={{ scale: 1.1, x: 2 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={nextImage}
-          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-700 w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all backdrop-blur-sm border border-white/50"
-        >
-          <FaChevronRight className="text-lg" />
-        </motion.button>
+  //       <motion.button
+  //         // whileHover={{ scale: 1.1, x: 2 }}
+  //         whileTap={{ scale: 0.9 }}
+  //         onClick={nextImage}
+  //         className="absolute right-6 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-700 w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all backdrop-blur-sm border border-white/50"
+  //       >
+  //         <FaChevronRight className="text-lg" />
+  //       </motion.button>
 
-        {/* Enhanced image info overlay */}
-        <motion.div 
-          className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-xl rounded-2xl p-4 shadow-lg border border-white/50"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <div className="flex items-center gap-3">
-            <motion.div
-              className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-            <div>
-              <h4 className="font-bold text-gray-800 text-lg">{filteredImages[currentIndex]?.title}</h4>
-              <p className="text-sm text-gray-600 font-medium">{filteredImages[currentIndex]?.category}</p>
-            </div>
-          </div>
-        </motion.div>
-      </motion.div>
+  //       {/* Enhanced image info overlay */}
+  //       <motion.div 
+  //         className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-xl rounded-2xl p-4 shadow-lg border border-white/50"
+  //         initial={{ opacity: 0, y: 20 }}
+  //         animate={{ opacity: 1, y: 0 }}
+  //         transition={{ delay: 0.3 }}
+  //       >
+  //         <div className="flex items-center gap-3">
+  //           <motion.div
+  //             className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
+  //             animate={{ scale: [1, 1.2, 1] }}
+  //             transition={{ duration: 2, repeat: Infinity }}
+  //           />
+  //           <div>
+  //             <h4 className="font-bold text-gray-800 text-lg">{filteredImages[currentIndex]?.title}</h4>
+  //             <p className="text-sm text-gray-600 font-medium">{filteredImages[currentIndex]?.category}</p>
+  //           </div>
+  //         </div>
+  //       </motion.div>
+  //     </motion.div>
 
-      {/* Premium Thumbnail Navigation */}
-      <div className="flex justify-center gap-3 overflow-x-auto pb-4">
-        {filteredImages.map((image, idx) => (
-          <motion.button
-            key={`thumb-${image.src}-${selectedCategory}`}
-            whileHover={{ scale: 1.1, y: -2 }}
-            onClick={() => setCurrentIndex(idx)}
-            className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 shadow-md ${
-              idx === currentIndex 
-                ? 'border-blue-400 shadow-lg ring-2 ring-blue-200' 
-                : 'border-gray-200 opacity-70 hover:opacity-100 hover:border-gray-300'
-            }`}
-          >
-            <img
-              src={image.src}
-              alt={image.title}
-              className="w-full h-full object-cover"
-            />
-          </motion.button>
-        ))}
-      </div>
-    </div>
-  );
+  //     {/* Premium Thumbnail Navigation */}
+  //     <div className="flex justify-center gap-3 overflow-x-auto pb-4">
+  //       {filteredImages.map((image, idx) => (
+  //         <motion.button
+  //           key={`thumb-${image.src}-${selectedCategory}`}
+  //           whileHover={{ scale: 1.1, y: -2 }}
+  //           onClick={() => setCurrentIndex(idx)}
+  //           className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 shadow-md ${
+  //             idx === currentIndex 
+  //               ? 'border-blue-400 shadow-lg ring-2 ring-blue-200' 
+  //               : 'border-gray-200 opacity-70 hover:opacity-100 hover:border-gray-300'
+  //           }`}
+  //         >
+  //           <img
+  //             src={image.src}
+  //             alt={image.title}
+  //             className="w-full h-full object-cover"
+  //           />
+  //         </motion.button>
+  //       ))}
+  //     </div>
+  //   </div>
+  // );
 };
 
 // Premium Team Card with enhanced animations
@@ -812,7 +814,7 @@ function Home() {
     viewport={{ once: true }}
     transition={{ type: "spring", stiffness: 120, damping: 10, mass: 0.5 }}
     className="text-5xl font-extrabold text-center bg-gradient-to-r from-gray-700 to-gray-900 bg-clip-text text-transparent mb-12 cursor-default select-none"
-    whileHover={{ scale: 1.05, textShadow: "0 0 12px rgba(99,102,241,0.6)" }}
+    // whileHover={{ scale: 1.05, textShadow: "0 0 12px rgba(99,102,241,0.6)" }}
   >
     Our Gallery
   </motion.h2>

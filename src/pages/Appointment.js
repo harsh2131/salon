@@ -81,12 +81,12 @@ const BookingForm = () => {
   const branchObj = branches.find((b) => b.id === branch);
 
   // Shared button styles & animations
-  const buttonClassNames =
-    "w-full py-5 rounded-xl bg-gradient-to-r from-pink-400 via-yellow-300 to-yellow-400 border-2 border-[#FFD700] text-[#a6466c] font-extrabold text-xl shadow-lg transition hover:from-yellow-300 hover:via-pink-400 hover:to-yellow-400 hover:shadow-2xl";
+const buttonClassNames =
+  "w-full py-5 rounded-xl bg-gradient-to-r from-pink-200 to-pink-400 border border-pink-400 text-pink-800 font-semibold text-xl shadow-sm transition-colors duration-300 hover:bg-pink-500 hover:text-white hover:shadow-md";
 
   const buttonHoverAnimation = {
     scale: 1.05,
-    background: "linear-gradient(90deg,#f43f5e,#8750e9,#facc15)",
+    background: "linear-gradient(90deg,#F472B6,#F472B6,#FBCFE8)",
     color: "#fff",
     boxShadow: "0 12px 40px rgba(236,72,153,0.2)",
   };
