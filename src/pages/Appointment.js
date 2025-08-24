@@ -50,6 +50,7 @@ const BookingForm = () => {
     phone: "",
     notes: "",
   });
+  const [errors, setErrors] = useState({});
 
   // Service summary
   const selectedDetails = services.filter((s) =>
@@ -65,8 +66,10 @@ const BookingForm = () => {
     );
   };
 
+  // Handle input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" }); // Clear error on input
   };
 
   // Format date
@@ -81,44 +84,34 @@ const BookingForm = () => {
 
   const branchObj = branches.find((b) => b.id === branch);
 
-  // ============== THE MAGIC BUTTON STYLES ==============
-  const buttonClassNames =
-    "w-full sm:w-[45%] px-8 py-4 rounded-[2rem] bg-gradient-to-r from-[#fbc2eb] to-[#fd6eab] border-2 border-[#fd6eab] text-[#a6466c] font-extrabold text-2xl shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-300";
-  const buttonHoverAnimation = {
-    scale: 1.02,
-    background: "linear-gradient(90deg,#fd6eab,#fbc2eb)",
-    color: "#a6466c",
-    boxShadow: "0 8px 30px rgba(253,110,171,.12)",
-  };
-  const buttonTapAnimation = { scale: 0.98 };
+  // Validation function
+  const validate = () => {
+    const newErrors = {};
 
-  // ============== Booking Handler ==============
+    if (selectedServices.length === 0)
+      newErrors.selectedServices = "Please select at least one service.";
+    if (!branch) newErrors.branch = "Please select a location.";
+    if (!date) newErrors.date = "Please select a date.";
+    if (!time) newErrors.time = "Please select a time.";
+
+    if (!formData.firstName.trim())
+      newErrors.firstName = "First name is required.";
+    if (!formData.lastName.trim())
+      newErrors.lastName = "Last name is required.";
+    if (!formData.email.trim())
+      newErrors.email = "Email is required.";
+    else if (!/^\S+@\S+\.\S+$/.test(formData.email))
+      newErrors.email = "Email is invalid.";
+    if (!formData.phone.trim())
+      newErrors.phone = "Phone number is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Booking handler
   const handleBooking = async () => {
-    if (selectedServices.length === 0) {
-      alert("Please select at least one service.");
-      return;
-    }
-    if (!branch) {
-      alert("Please select a location.");
-      return;
-    }
-    if (!date) {
-      alert("Please select a date.");
-      return;
-    }
-    if (!time) {
-      alert("Please select a time.");
-      return;
-    }
-    if (
-      !formData.firstName ||
-      !formData.lastName ||
-      !formData.email ||
-      !formData.phone
-    ) {
-      alert("Please fill all required personal information fields.");
-      return;
-    }
+    if (!validate()) return;
 
     const bookingData = {
       services: selectedDetails,
@@ -155,19 +148,30 @@ const BookingForm = () => {
         phone: "",
         notes: "",
       });
+      setErrors({});
     } catch (error) {
       alert("Error: " + error.message);
     }
   };
 
-  // =============== UI ===============
+  // ============== THE MAGIC BUTTON STYLES ==============
+  const buttonClassNames =
+    "w-full sm:w-[45%] px-8 py-4 rounded-[2rem] bg-gradient-to-r from-[#fbc2eb] to-[#fd6eab] border-2 border-[#fd6eab] text-[#a6466c] font-extrabold text-2xl shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-300";
+  const buttonHoverAnimation = {
+    scale: 1.02,
+    background: "linear-gradient(90deg,#fd6eab,#fbc2eb)",
+    color: "#a6466c",
+    boxShadow: "0 8px 30px rgba(253,110,171,.12)",
+  };
+  const buttonTapAnimation = { scale: 0.98 };
+
   return (
     <div className="max-w-4xl mx-auto p-6 text-pink-800">
-     <div className="pt-16"> {/* 16 = 4rem = 64px, adjust according to your navbar height */}
-  <h1 className="text-4xl font-bold text-center text-pink-600 mb-4">
-    Book Your Appointment
-  </h1>
-</div>
+      <div className="pt-16">
+        <h1 className="text-4xl font-bold text-center text-pink-600 mb-4">
+          Book Your Appointment
+        </h1>
+      </div>
 
       <p className="text-center text-pink-700 mb-10">
         Choose your services, preferred location, and time that works best for you
@@ -193,6 +197,9 @@ const BookingForm = () => {
             <p className="font-semibold">${service.price}</p>
           </div>
         ))}
+        {errors.selectedServices && (
+          <p className="text-red-600 mt-1">{errors.selectedServices}</p>
+        )}
       </div>
 
       {/* Branch */}
@@ -203,9 +210,7 @@ const BookingForm = () => {
             key={b.id}
             onClick={() => setBranch(b.id)}
             className={`border p-4 mb-3 rounded-md cursor-pointer ${
-              branch === b.id
-                ? "bg-pink-50 border-pink-400"
-                : "hover:border-pink-300"
+              branch === b.id ? "bg-pink-50 border-pink-400" : "hover:border-pink-300"
             }`}
           >
             <h3 className="font-semibold text-lg mb-1">{b.name}</h3>
@@ -215,6 +220,7 @@ const BookingForm = () => {
             </p>
           </div>
         ))}
+        {errors.branch && <p className="text-red-600 mt-1">{errors.branch}</p>}
       </div>
 
       {/* Date & Time */}
@@ -226,16 +232,27 @@ const BookingForm = () => {
             <input
               type="date"
               value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="w-full border rounded px-4 py-2"
+              onChange={(e) => {
+                setDate(e.target.value);
+                setErrors({ ...errors, date: "" });
+              }}
+              className={`w-full border rounded px-4 py-2 ${
+                errors.date ? "border-red-500" : ""
+              }`}
             />
+            {errors.date && <p className="text-red-600 mt-1">{errors.date}</p>}
           </div>
           <div>
             <label className="block mb-1 font-medium">Select Time</label>
             <select
               value={time}
-              onChange={(e) => setTime(e.target.value)}
-              className="w-full border rounded px-4 py-2"
+              onChange={(e) => {
+                setTime(e.target.value);
+                setErrors({ ...errors, time: "" });
+              }}
+              className={`w-full border rounded px-4 py-2 ${
+                errors.time ? "border-red-500" : ""
+              }`}
             >
               <option value="">Choose time</option>
               {[...Array(20)].map((_, i) => {
@@ -246,6 +263,7 @@ const BookingForm = () => {
                 );
               })}
             </select>
+            {errors.time && <p className="text-red-600 mt-1">{errors.time}</p>}
           </div>
         </div>
       </div>
@@ -259,32 +277,56 @@ const BookingForm = () => {
             onChange={handleChange}
             value={formData.firstName}
             placeholder="First Name *"
-            className="border rounded px-4 py-2"
+            className={`border rounded px-4 py-2 ${
+              errors.firstName ? "border-red-500" : ""
+            }`}
           />
+          {errors.firstName && (
+            <p className="text-red-600 mt-1 col-span-full">{errors.firstName}</p>
+          )}
+
           <input
             name="lastName"
             onChange={handleChange}
             value={formData.lastName}
             placeholder="Last Name *"
-            className="border rounded px-4 py-2"
+            className={`border rounded px-4 py-2 ${
+              errors.lastName ? "border-red-500" : ""
+            }`}
           />
+          {errors.lastName && (
+            <p className="text-red-600 mt-1 col-span-full">{errors.lastName}</p>
+          )}
+
           <input
             name="email"
             type="email"
             onChange={handleChange}
             value={formData.email}
             placeholder="Email *"
-            className="border rounded px-4 py-2"
+            className={`border rounded px-4 py-2 ${
+              errors.email ? "border-red-500" : ""
+            }`}
           />
+          {errors.email && (
+            <p className="text-red-600 mt-1 col-span-full">{errors.email}</p>
+          )}
+
           <input
             name="phone"
             type="tel"
             onChange={handleChange}
             value={formData.phone}
             placeholder="Phone *"
-            className="border rounded px-4 py-2"
+            className={`border rounded px-4 py-2 ${
+              errors.phone ? "border-red-500" : ""
+            }`}
           />
+          {errors.phone && (
+            <p className="text-red-600 mt-1 col-span-full">{errors.phone}</p>
+          )}
         </div>
+
         <textarea
           name="notes"
           onChange={handleChange}
@@ -319,9 +361,7 @@ const BookingForm = () => {
         </div>
         <div className="mb-2 flex justify-between">
           <span className="font-semibold">Total Price:</span>
-          <span className="font-bold text-pink-600 text-lg">
-            ${totalPrice}
-          </span>
+          <span className="font-bold text-pink-600 text-lg">${totalPrice}</span>
         </div>
         <div className="my-4 border-t" />
         <div className="mb-2 flex justify-between">
@@ -365,7 +405,10 @@ const BookingForm = () => {
       <div className="mt-8 text-center">
         <p className="text-md text-gray-500 mb-4">
           <span className="font-semibold text-pink-500">Login</span> and{" "}
-          <span className="font-semibold" style={{ color: "#fbbf24" }}>Sign Up</span> are only for Salon staff.
+          <span className="font-semibold" style={{ color: "#fbbf24" }}>
+            Sign Up
+          </span>{" "}
+          are only for Salon staff.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-8">
           <motion.button

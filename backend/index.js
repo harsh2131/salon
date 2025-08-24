@@ -1,21 +1,26 @@
-require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
-const bookingsRouter = require("./routes/booking");  // Singular 'booking'
+require('dotenv').config();
+const express = require('express');
+const cors = require("cors")
+const mongoose = require('mongoose');
 
 const app = express();
 app.use(express.json());
 
-// Connect to MongoDB with error handling
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("MongoDB connected"))
+app.use(cors())
+
+const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/salon';
+
+mongoose.connect(mongoUri)
+  .then(() => console.log('MongoDB connected'))
   .catch(err => {
-    console.error("MongoDB connection error:", err);
-    process.exit(1); // Exit process on connection failure
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
   });
 
-// API route for bookings
-app.use("/api/bookings", bookingsRouter);
+app.use('/api', require('./routes/appointmentRoutes'));
+app.get('/', (req, res) => {
+  res.send('API is running');
+});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`API running on port ${PORT}`));

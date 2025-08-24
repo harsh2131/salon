@@ -41,8 +41,8 @@ export default function VanityNavbar() {
         transition={{ duration: 0.9, ease: "easeOut" }}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${
           scrolled
-            ? "backdrop-blur-lg bg-[#fefcf9aa] shadow-md border-b border-gray-300"
-            : "bg-[#fefcf999] backdrop-blur-lg border-b border-gray-300"
+            ? "backdrop-blur-lg bg-[#fefcf9ee] shadow-md border-b border-gray-200"
+            : "bg-[#fefcf9cc] backdrop-blur-lg border-b border-gray-100"
         }`}
       >
         <div className="w-full px-6 sm:px-8 py-3 sm:py-4 flex items-center justify-between">
@@ -65,7 +65,7 @@ export default function VanityNavbar() {
               initial={{ y: 0, color: "#1f2937" }}
               whileHover={{
                 y: [0, -5, 0],
-                color: ["#1f2937", "#ec4899", "#1f2937"], // gray-800 to pink-500 and back
+                color: ["#1f2937", "#ec4899", "#1f2937"],
                 scale: 1.05,
                 rotateY: 10,
                 rotateX: 6,
@@ -95,7 +95,7 @@ export default function VanityNavbar() {
                   className={({ isActive }) =>
                     `relative px-4 py-2 rounded-lg font-medium transition-all duration-300 group ${
                       isActive
-                        ? "bg-white/40 backdrop-blur-md text-gray-900 shadow-sm"
+                        ? "text-yellow-600 font-semibold after:w-2/3 after:bg-yellow-500"
                         : "text-gray-700 hover:text-gray-900 hover:bg-white/30"
                     }`
                   }
@@ -103,7 +103,7 @@ export default function VanityNavbar() {
                   onMouseLeave={resetMagnetic}
                 >
                   {link.name}
-                  <span className="absolute bottom-1 left-4 w-0 h-[2px] bg-gray-400 rounded-full transition-all duration-300 group-hover:w-2/3"></span>
+                  <span className="absolute bottom-1 left-4 w-0 h-[2px] bg-yellow-500 rounded-full transition-all duration-300 group-hover:w-2/3"></span>
                 </NavLink>
               </motion.div>
             ))}
@@ -135,7 +135,13 @@ export default function VanityNavbar() {
                   <NavLink
                     key={link.name}
                     to={link.to}
-                    className="block px-8 py-5 text-gray-800 font-semibold hover:bg-white/50 transition-colors duration-200"
+                    className={({ isActive }) =>
+                      `block px-8 py-5 font-semibold transition-colors duration-200 ${
+                        isActive
+                          ? "text-yellow-600 bg-white/40"
+                          : "text-gray-800 hover:bg-white/50"
+                      }`
+                    }
                     onClick={() => setMenuOpen(false)}
                   >
                     {link.name}
@@ -145,6 +151,9 @@ export default function VanityNavbar() {
             )}
           </AnimatePresence>
         </div>
+
+        {/* 🔥 Golden Gradient Bar Below Navbar */}
+        <div className="w-full h-[7px] bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600"></div>
       </motion.header>
 
       {/* Spacer div to offset fixed navbar */}
